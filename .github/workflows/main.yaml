@@ -63,14 +63,14 @@ jobs:
           cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILDAsm.*.nupkg ${OUTPUTDIR}
 
       - name: compress files 
-        run: tar -zcf artifacts_runtime.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
+        run: tar -zcf artifacts-runtime.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
       - name: Upload .Net Runtime Artifacts
         uses: actions/upload-artifact@v4
         with:
           retention-days: 1
-          name: artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}.tar.gz
-          path: artifacts_runtime.tar.gz
+          name: artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}
+          path: artifacts-runtime.tar.gz
 
   build_SDK:
     name: Build .NET SDK
@@ -109,14 +109,14 @@ jobs:
         cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Common.*.nupkg ${PACKAGESDIR}
 
     - name: compress files 
-      run: tar -zcf artifacts_SDK.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
+      run: tar -zcf artifacts-SDK.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
     - name: Upload .Net SDK Artifacts
       uses: actions/upload-artifact@v4
       with:
         retention-days: 1
-        name: artifacts-SDK-riscv64-${{ env.SDK_VERSION }}.tar.gz
-        path: artifacts_SDK.tar.gz
+        name: artifacts-SDK-riscv64-${{ env.SDK_VERSION }}
+        path: artifacts-SDK.tar.gz
 
 
   build_aspnetcore:
@@ -148,10 +148,10 @@ jobs:
     - name: Download .Net Runtime Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}.tar.gz
+        name: artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}
         path: ${{ github.workspace }}/
     - name: Decompress Artifacts
-      run: tar -zxf ${{ github.workspace }}/artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}.tar.gz -C ${{ github.workspace }}
+      run: tar -zxf ${{ github.workspace }}/artifacts-runtime.tar.gz -C ${{ github.workspace }}
 
     - name: Build .NET aspnetcore
       run: |
@@ -168,14 +168,14 @@ jobs:
         cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Web.*.nupkg ${PACKAGESDIR}
 
     - name: compress files 
-      run: tar -zcf artifacts_aspnetcore.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
+      run: tar -zcf artifacts-aspnetcore.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
     - name: Upload .Net SDK Artifacts
       uses: actions/upload-artifact@v4
       with:
         retention-days: 1
-        name: artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}.tar.gz
-        path: artifacts_aspnetcore.tar.gz
+        name: artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}
+        path: artifacts-aspnetcore.tar.gz
 
 
   build_installer:
@@ -216,8 +216,8 @@ jobs:
         path: ${{ github.workspace }}/
     - name: Decompress Artifacts
       run: |
-        tar -zxf ${{ github.workspace }}/artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}.tar.gz -C ${{ github.workspace }}
-        tar -zxf ${{ github.workspace }}/artifacts-SDK-riscv64-${{ env.SDK_VERSION }}.tar.gz -C ${{ github.workspace }}
+        tar -zxf ${{ github.workspace }}/artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}
+        tar -zxf ${{ github.workspace }}/artifacts-SDK.tar.gz -C ${{ github.workspace }}
 
     - name: Build .NET installer
       run: |
