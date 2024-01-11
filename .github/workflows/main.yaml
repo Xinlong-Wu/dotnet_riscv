@@ -151,7 +151,7 @@ jobs:
         name: artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}
         path: ${{ github.workspace }}/
     - name: Decompress Artifacts
-      run: tar -zxf ${{ github.workspace }}/artifacts-runtime.tar.gz -C ${{ github.workspace }}
+      run: tar -zxf artifacts-runtime.tar.gz -C ${{ github.workspace }}
 
     - name: Build .NET aspnetcore
       run: |
@@ -216,8 +216,8 @@ jobs:
         path: ${{ github.workspace }}/
     - name: Decompress Artifacts
       run: |
-        tar -zxf ${{ github.workspace }}/artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}
-        tar -zxf ${{ github.workspace }}/artifacts-SDK.tar.gz -C ${{ github.workspace }}
+        tar -zxf artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}
+        tar -zxf artifacts-SDK.tar.gz -C ${{ github.workspace }}
 
     - name: Build .NET installer
       run: |
