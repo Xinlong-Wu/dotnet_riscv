@@ -68,7 +68,7 @@ jobs:
         run: tar -zcf ${{ github.workspace }}\artifacts_runtime.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
       - name: Upload .Net Runtime Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}.tar.gz
           path: ${{ github.workspace }}\artifacts_runtime.tar.gz
@@ -114,7 +114,7 @@ jobs:
       run: tar -zcf ${{ github.workspace }}\artifacts_SDK.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
     - name: Upload .Net SDK Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: artifacts-SDK-riscv64-${{ env.SDK_VERSION }}.tar.gz
         path: ${{ github.workspace }}\artifacts_SDK.tar.gz
@@ -177,7 +177,7 @@ jobs:
       run: tar -zcf ${{ github.workspace }}\artifacts_aspnetcore.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
     - name: Upload .Net SDK Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}.tar.gz
         path: ${{ github.workspace }}\artifacts_aspnetcore.tar.gz
@@ -207,7 +207,7 @@ jobs:
         path: |
           aspnetcore/.dotnet/
           aspnetcore/artifacts/
-        key: ${{ runner.os }}-SDK-riscv64-${{ env.ASPNETCORE_VERSION }}
+        key: ${{ runner.os }}-installer-riscv64-${{ env.ASPNETCORE_VERSION }}
 
     - name: Download .Net Runtime & aspnetcore Artifacts
       uses: actions/download-artifact@v2
