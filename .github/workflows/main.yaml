@@ -149,8 +149,9 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}.tar.gz
+        path: ${{ github.workspace }}/
     - name: Decompress Artifacts
-      run: tar -zxf artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}.tar.gz -C ${{ github.workspace }}
+      run: tar -zxf ${{ github.workspace }}/artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}.tar.gz -C ${{ github.workspace }}
 
     - name: Build .NET aspnetcore
       run: |
@@ -207,14 +208,16 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}.tar.gz
+        path: ${{ github.workspace }}/
     - name: Download .Net SDK Artifacts
       uses: actions/download-artifact@v4
       with:
         name: artifacts-SDK-riscv64-${{ env.SDK_VERSION }}.tar.gz
+        path: ${{ github.workspace }}/
     - name: Decompress Artifacts
       run: |
-        tar -zxf artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}.tar.gz -C ${{ github.workspace }}
-        tar -zxf artifacts-SDK-riscv64-${{ env.SDK_VERSION }}.tar.gz -C ${{ github.workspace }}
+        tar -zxf ${{ github.workspace }}/artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}.tar.gz -C ${{ github.workspace }}
+        tar -zxf ${{ github.workspace }}/artifacts-SDK-riscv64-${{ env.SDK_VERSION }}.tar.gz -C ${{ github.workspace }}
 
     - name: Build .NET installer
       run: |
