@@ -32,9 +32,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .dotnet/
-            artifacts/
-          key: ${{ runner.os }}-runtime-riscv64
+            runtime/.dotnet/
+            runtime/artifacts/
+          key: ${{ runner.os }}-runtime-riscv64-${{ RUNTIME_VERSION }}
       - name: Build runtime
         run: |
           mkdir -p ${PACKAGESDIR}
@@ -58,12 +58,56 @@ jobs:
 
       - name: compress files 
         run: tar -zcf ${{ github.workspace }}\artifacts_runtime.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
-      # upload entire project
+
       - name: Upload .Net Runtime Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: runtime.tar.gz
+          name: artifacts-runtime-riscv64-${{ RUNTIME_VERSION }}.tar.gz
           path: ${{ github.workspace }}\artifacts_runtime.tar.gz
+
+  build_SDK:
+    name: Build .NET SDK
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-cross-riscv64
+      env:
+        PACKAGESDIR: ${{ github.workspace }}/packages
+        DOWNLOADDIR: ${{ github.workspace }}/downloads
+        OUTPUTDIR: ${{ github.workspace }}/output
+        RUNTIME_VERSION: 8.0.0-rtm.23531.3
+        SDK_VERSION: 8.0.100-rtm.23551.6
+        ASPNETCORE_VERSION: 8.0.0-rtm.23531.12
+        ROOTFS_DIR: /crossrootfs/riscv64
+      volumes:
+        - ${{ github.workspace }}/output:${{ github.workspace }}/output
+
+    steps:
+    - name: Clone repositories
+      run: git clone --depth 1 -b v8.0.100 https://github.com/dotnet/sdk
+    # cache
+    - name: Cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          sdk/.dotnet/
+          sdk/artifacts/
+        key: ${{ runner.os }}-SDK-riscv64-${{ SDK_VERSION }}
+    - name: Build SDK
+      run: |
+        cd sdk
+        ./build.sh --pack --ci -c Release /p:Architecture=riscv64
+        mkdir -p ${DOWNLOADDIR}/Sdk/${SDK_VERSION}
+        cp artifacts/packages/Release/NonShipping/dotnet-toolset-internal-*.zip ${DOWNLOADDIR}/Sdk/${SDK_VERSION}/dotnet-toolset-internal-${SDK_VERSION}.zip
+        cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Common.*.nupkg ${PACKAGESDIR}
+
+    - name: compress files 
+      run: tar -zcf ${{ github.workspace }}\artifacts_SDK.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
+
+    - name: Upload .Net SDK Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifacts-SDK-riscv64-${{ SDK_VERSION }}.tar.gz
+        path: ${{ github.workspace }}\artifacts_SDK.tar.gz
       
       
   # run:
