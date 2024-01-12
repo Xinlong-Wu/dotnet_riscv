@@ -114,14 +114,14 @@ jobs:
   #       path: artifacts-SDK.tar.gz
 
 
-  # build_aspnetcore:
-  #   name: Build .NET aspnetcore
-  #   runs-on: ubuntu-latest
-  #   needs: build_runtime
-  #   container:
-  #     image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-cross-riscv64
-  #     volumes:
-  #       - ${{ github.workspace }}/output:${{ github.workspace }}/output
+  build_aspnetcore:
+    name: Build .NET aspnetcore
+    runs-on: ubuntu-latest
+    needs: build_runtime
+    container:
+      image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-cross-riscv64
+      volumes:
+        - ${{ github.workspace }}/output:${{ github.workspace }}/output
 
     steps:
     - name: Update Node.js
