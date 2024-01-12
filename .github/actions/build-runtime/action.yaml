@@ -15,6 +15,7 @@ runs:
   steps:
     - name: Clone repository
       run: git clone --depth 1 -b ${{ inputs.branch }} ${{ inputs.repository }}
+      shell: bash
     - name: Cache
         uses: actions/cache@v2
         with:
@@ -23,6 +24,7 @@ runs:
             runtime/artifacts/
           key: ${{ runner.os }}-runtime-riscv64-${{ inputs.runtime_version }}
     - name: Build runtime
+      shell: bash
       run: |
         mkdir -p ${{ env.PACKAGESDIR }}
         mkdir -p ${{ env.DOWNLOADDIR }}
@@ -43,6 +45,7 @@ runs:
         cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILAsm.*.nupkg ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILDAsm.*.nupkg ${{ env.OUTPUTDIR }}
     - name: compress files 
+      shell: bash
       run: tar -zcf artifacts-runtime.tar.gz -C ${{ github.workspace }}/ packages downloads output
     - name: Upload .Net Runtime Artifacts
       uses: actions/upload-artifact@v4
