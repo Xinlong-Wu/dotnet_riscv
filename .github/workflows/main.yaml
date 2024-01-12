@@ -149,9 +149,7 @@ jobs:
 
     - name: Build .NET aspnetcore
       run: |
-        echo ${{ env.DOWNLOADDIR }}
-        ls
-        ls ${{ env.DOWNLOADDIR }}
+        ls ${{ github.workspace }}
         ls ${{ env.DOWNLOADDIR }}/Runtime/${{ env.RUNTIME_VERSION}}/dotnet-runtime-8.0.0-linux-riscv64.tar.gz
         cd aspnetcore
         sed -i "s|ppc64le|riscv64|" src/Framework/App.Runtime/src/Microsoft.AspNetCore.App.Runtime.csproj
