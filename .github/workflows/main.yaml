@@ -190,11 +190,11 @@ jobs:
     - name: Download .Net Runtime & aspnetcore Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}.tar.gz
+        name: artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}
     - name: Download .Net SDK Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: artifacts-SDK-riscv64-${{ env.SDK_VERSION }}.tar.gz
+        name: artifacts-SDK-riscv64-${{ env.SDK_VERSION }}
     - name: Decompress Artifacts
       run: |
         mkdir -p ${{ github.workspace }}
