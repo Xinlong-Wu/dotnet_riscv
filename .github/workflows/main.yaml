@@ -37,7 +37,11 @@ jobs:
           key: ${{ runner.os }}-runtime-riscv64-${{ env.RUNTIME_VERSION }}
 
       - name: Build runtime
-        run:
+        run: |
+          echo ${DOWNLOADDIR}
+          ls
+          ls ${DOWNLOADDIR}
+          ls ${DOWNLOADDIR}/Runtime/${RUNTIME_VERSION}/dotnet-runtime-8.0.0-linux-riscv64.tar.gz
           mkdir -p ${PACKAGESDIR}
           mkdir -p ${DOWNLOADDIR}
           mkdir -p ${OUTPUTDIR}
@@ -149,6 +153,8 @@ jobs:
 
     - name: Build .NET aspnetcore
       run: |
+        echo ${DOWNLOADDIR}
+        ls
         ls ${DOWNLOADDIR}
         ls ${DOWNLOADDIR}/Runtime/${RUNTIME_VERSION}/dotnet-runtime-8.0.0-linux-riscv64.tar.gz
         cd aspnetcore
