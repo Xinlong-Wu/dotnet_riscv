@@ -25,11 +25,6 @@ jobs:
         - ${{ github.workspace }}/output:${{ github.workspace }}/output
 
     steps:
-      - name: Update Node.js
-        run: |
-          apt-get update
-          apt-get autoremove -y nodejs
-          curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
       - name: Clone repository
         run: git clone --depth 1 -b v8.0.0 https://github.com/dotnet/runtime
         # cache
@@ -63,7 +58,7 @@ jobs:
           cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILDAsm.*.nupkg ${OUTPUTDIR}
 
       - name: compress files 
-        run: tar -zcf artifacts-runtime.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
+        run: tar -zcf artifacts-runtime.tar.gz -C ${{ github.workspace }}/ ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
       - name: Upload .Net Runtime Artifacts
         uses: actions/upload-artifact@v4
@@ -109,7 +104,7 @@ jobs:
         cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Common.*.nupkg ${PACKAGESDIR}
 
     - name: compress files 
-      run: tar -zcf artifacts-SDK.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
+      run: tar -zcf artifacts-SDK.tar.gz -C ${{ github.workspace }}/ ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
     - name: Upload .Net SDK Artifacts
       uses: actions/upload-artifact@v4
@@ -149,7 +144,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: artifacts-runtime-riscv64-${{ env.RUNTIME_VERSION }}
-        path: ${{ github.workspace }}/
     - name: Decompress Artifacts
       run: tar -zxf artifacts-runtime.tar.gz -C ${{ github.workspace }}
 
@@ -168,7 +162,7 @@ jobs:
         cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Web.*.nupkg ${PACKAGESDIR}
 
     - name: compress files 
-      run: tar -zcf artifacts-aspnetcore.tar.gz ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
+      run: tar -zcf artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}/ ${PACKAGESDIR} ${DOWNLOADDIR} ${OUTPUTDIR}
 
     - name: Upload .Net SDK Artifacts
       uses: actions/upload-artifact@v4
@@ -188,11 +182,6 @@ jobs:
         - ${{ github.workspace }}/output:${{ github.workspace }}/output
 
     steps:
-    - name: Update Node.js
-      run: |
-        apt-get update
-        apt-get autoremove -y nodejs
-        curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
     - name: Clone repositories
       run: git clone --depth 1 -b v8.0.100 https://github.com/dotnet/installer
     # cache
@@ -208,16 +197,14 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: artifacts-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}.tar.gz
-        path: ${{ github.workspace }}/
     - name: Download .Net SDK Artifacts
       uses: actions/download-artifact@v4
       with:
         name: artifacts-SDK-riscv64-${{ env.SDK_VERSION }}.tar.gz
-        path: ${{ github.workspace }}/
     - name: Decompress Artifacts
       run: |
-        tar -zxf artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}
-        tar -zxf artifacts-SDK.tar.gz -C ${{ github.workspace }}
+        tar -zxf artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}/
+        tar -zxf artifacts-SDK.tar.gz -C ${{ github.workspace }}/
 
     - name: Build .NET installer
       run: |
