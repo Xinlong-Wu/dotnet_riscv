@@ -21,8 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-cross-riscv64
-      volumes:
-        - ${{ github.workspace }}/output:${{ github.workspace }}/output
 
     steps:
       - name: Clone repository
@@ -72,8 +70,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-cross-riscv64
-      volumes:
-        - ${{ github.workspace }}/output:${{ github.workspace }}/output
 
     steps:
     - name: Update Node.js
@@ -120,8 +116,6 @@ jobs:
     needs: build_runtime
     container:
       image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-cross-riscv64
-      volumes:
-        - ${{ github.workspace }}/output:${{ github.workspace }}/output
 
     steps:
     - name: Update Node.js
@@ -180,8 +174,6 @@ jobs:
     needs: [build_aspnetcore, build_SDK]
     container:
       image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-cross-riscv64
-      volumes:
-        - ${{ github.workspace }}/output:${{ github.workspace }}/output
 
     steps:
     - name: Clone repositories
