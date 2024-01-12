@@ -16,13 +16,6 @@ runs:
     - name: Clone repository
       run: git clone --depth 1 -b ${{ inputs.branch }} ${{ inputs.repository }}
       shell: bash
-    - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            runtime/.dotnet/
-            runtime/artifacts/
-          key: ${{ runner.os }}-runtime-riscv64-${{ inputs.runtime_version }}
     - name: Build runtime
       shell: bash
       run: |

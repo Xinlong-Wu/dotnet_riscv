@@ -24,6 +24,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            runtime/.dotnet/
+            runtime/artifacts/
+            sdk/.dotnet/
+            sdk/artifacts/
+            aspnetcore/.dotnet/
+            aspnetcore/artifacts/
+            installer/.dotnet/
+            installer/artifacts/
+          key: ${{ runner.os }}-runtime-riscv64-${{ inputs.runtime_version }}
       - name: build .Net Runtime With CoreCLR Backend
         uses: ./.github/actions/build-runtime
         with:
