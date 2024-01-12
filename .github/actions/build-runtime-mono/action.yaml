@@ -24,7 +24,7 @@ runs:
         mkdir -p ${{ env.OUTPUTDIR }}
 
         cd runtime
-        ./build.sh -s Mono+Tools+Host+Libs+Packs --ci -c Release --cross --arch riscv64
+        ./build.sh -s Mono+Tools+Host+Libs+Packs+Clr.Hosts --ci -c Release --cross --arch riscv64
         cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Host.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
         cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
         mkdir -p ${{ env.DOWNLOADDIR }}/Runtime/${{ inputs.runtime_version }}

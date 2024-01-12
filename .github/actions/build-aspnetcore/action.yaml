@@ -19,10 +19,6 @@ runs:
     - name: Clone repository
       run: git clone --depth 1 -b ${{ inputs.branch }} ${{ inputs.repository }} --recurse-submodules
       shell: bash
-    - name: Download .Net Runtime Artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: artifacts-runtime-riscv64-${{ inputs.runtime_version }}
     - name: Build aspnetcore
       shell: bash
       run: |
