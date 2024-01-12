@@ -38,10 +38,6 @@ jobs:
 
       - name: Build runtime
         run: |
-          echo ${DOWNLOADDIR}
-          ls
-          ls ${DOWNLOADDIR}
-          ls ${DOWNLOADDIR}/Runtime/${RUNTIME_VERSION}/dotnet-runtime-8.0.0-linux-riscv64.tar.gz
           mkdir -p ${PACKAGESDIR}
           mkdir -p ${DOWNLOADDIR}
           mkdir -p ${OUTPUTDIR}
