@@ -65,3 +65,54 @@ jobs:
           runtime_version: ${{ env.RUNTIME_VERSION }}
           sdk_version: ${{ env.SDK_VERSION }}
           surfix: CoreCLR
+
+  build_dotnet_mono:
+    name: Build .NET with Mono Backend
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-cross-riscv64
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            runtime/.dotnet/
+            runtime/artifacts/
+            sdk/.dotnet/
+            sdk/artifacts/
+            aspnetcore/.dotnet/
+            aspnetcore/artifacts/
+            installer/.dotnet/
+            installer/artifacts/
+          key: ${{ runner.os }}-runtime-riscv64-Mono
+      - name: build .Net Runtime With Mono Backend
+        uses: ./.github/actions/build-runtime
+        with:
+          branch: v8.0.0
+          repository: https://github.com/dotnet/runtime
+          runtime_version: ${{ env.RUNTIME_VERSION }}
+      - name: build .Net SDK With CoreCLR Backend
+        uses: ./.github/actions/build-sdk
+        with:
+          branch: v8.0.100
+          repository:  https://github.com/dotnet/sdk
+          sdk_version: ${{ env.SDK_VERSION }}
+      - name: build .Net aspnetcore With CoreCLR Backend
+        uses: ./.github/actions/build-aspnetcore
+        with:
+          branch: v8.0.0
+          repository: https://github.com/dotnet/aspnetcore
+          aspnetcore_version: ${{ env.ASPNETCORE_VERSION }}
+          runtime_version: ${{ env.RUNTIME_VERSION }}
+      - name: build .Net installer With CoreCLR Backend
+        uses: ./.github/actions/build-installer
+        with:
+          branch: v8.0.100
+          repository: https://github.com/dotnet/installer
+          aspnetcore_version: ${{ env.ASPNETCORE_VERSION }}
+          runtime_version: ${{ env.RUNTIME_VERSION }}
+          sdk_version: ${{ env.SDK_VERSION }}
+          surfix: Mono
+
