@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: build .Net Runtime With CoreCLR Backend
-        uses: ./common-steps@build_runtime
+        uses: ./.github/actions/build-runtime
         with:
           branch: v8.0.0
           repository: https://github.com/dotnet/runtime

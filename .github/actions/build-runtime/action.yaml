@@ -1,0 +1,52 @@
+name: 'Build .NET Runtime'
+description: 'Build .NET Runtime for riscv64'
+inputs: 
+  repository:
+    description: 'Repository or .Net Runtime'
+    default: https://github.com/dotnet/runtime
+  branch:
+    description: 'Branch to build'
+    required: true
+  runtime_version:
+    description: 'Runtime version'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Clone repository
+      run: git clone --depth 1 -b ${{ input.branch }} ${{ input.repository }}
+    - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            runtime/.dotnet/
+            runtime/artifacts/
+          key: ${{ runner.os }}-runtime-riscv64-${{ input.runtime_version }}
+    - name: Build runtime
+      run: |
+        mkdir -p ${{ env.PACKAGESDIR }}
+        mkdir -p ${{ env.DOWNLOADDIR }}
+        mkdir -p ${{ env.OUTPUTDIR }}
+
+        cd runtime
+        ./build.sh --ci -c Release --cross --arch riscv64
+        cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Host.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
+        cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
+        mkdir -p ${{ env.DOWNLOADDIR }}/Runtime/${{ input.runtime_version }}
+        cp artifacts/packages/Release/Shipping/dotnet-runtime-*-linux-riscv64.tar.gz ${{ env.DOWNLOADDIR }}/Runtime/${{ input.runtime_version }}
+        cp artifacts/packages/Release/Shipping/dotnet-runtime-*-linux-riscv64.tar.gz ${{ env.OUTPUTDIR }}
+        cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Host.linux-riscv64.*.nupkg ${{ env.OUTPUTDIR }}
+        cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.OUTPUTDIR }}
+        cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHost.*.nupkg ${{ env.OUTPUTDIR }}
+        cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHostPolicy.*.nupkg ${{ env.OUTPUTDIR }}
+        cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHostResolver.*.nupkg ${{ env.OUTPUTDIR }}
+        cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILAsm.*.nupkg ${{ env.OUTPUTDIR }}
+        cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILDAsm.*.nupkg ${{ env.OUTPUTDIR }}
+    - name: compress files 
+      run: tar -zcf artifacts-runtime.tar.gz -C ${{ github.workspace }}/ packages downloads output
+    - name: Upload .Net Runtime Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        retention-days: 1
+        name: artifacts-runtime-riscv64-${{ input.runtime_version }}
+        path: artifacts-runtime.tar.gz
