@@ -1,0 +1,41 @@
+name: 'Build .NET aspnetcore'
+description: 'Build .NET aspnetcore for riscv64'
+inputs: 
+  repository:
+    description: 'Repository or .Net aspnetcore'
+    default: https://github.com/dotnet/aspnetcore
+  branch:
+    description: 'Branch to build'
+    required: true
+  aspnetcore_version:
+    description: 'aspnetcore version'
+    required: true
+  runtime_version:
+    description: 'Runtime version'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Clone repository
+      run: git clone --depth 1 -b ${{ inputs.branch }} ${{ inputs.repository }} --recurse-submodules
+      shell: bash
+    - name: Download .Net Runtime Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: artifacts-runtime-riscv64-${{ inputs.runtime_version }}
+    - name: Build aspnetcore
+      shell: bash
+      run: |
+        cd aspnetcore
+        sed -i "s|ppc64le|riscv64|" src/Framework/App.Runtime/src/Microsoft.AspNetCore.App.Runtime.csproj
+        sed -i "s|\$(BaseIntermediateOutputPath)\$(DotNetRuntimeArchiveFileName)|${{ env.DOWNLOADDIR }}/Runtime/${{ inputs.runtime_version }}/dotnet-runtime-8.0.0-linux-riscv64.tar.gz|" src/Framework/App.Runtime/src/Microsoft.AspNetCore.App.Runtime.csproj
+        ./eng/build.sh --pack --ci -c Release -arch riscv64 /p:DotNetAssetRootUrl=file://${{ env.DOWNLOADDIR }}/
+
+        cp artifacts/packages/Release/Shipping/Microsoft.AspNetCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
+        mkdir -p ${{ env.DOWNLOADDIR }}/aspnetcore/Runtime/${{ inputs.aspnetcore_version }}
+        cp artifacts/installers/Release/aspnetcore-runtime-*-linux-riscv64.tar.gz ${{ env.DOWNLOADDIR }}/aspnetcore/Runtime/${{ inputs.aspnetcore_version }}
+        cp artifacts/installers/Release/aspnetcore_base_runtime.version ${{ env.DOWNLOADDIR }}/aspnetcore/Runtime/${{ inputs.aspnetcore_version }}
+        cp artifacts/packages/Release/Shipping/Microsoft.AspNetCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.OUTPUTDIR }}
+        cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Web.*.nupkg ${{ env.PACKAGESDIR }}
+
+        

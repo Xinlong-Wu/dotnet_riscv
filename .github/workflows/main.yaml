@@ -36,36 +36,32 @@ jobs:
             aspnetcore/artifacts/
             installer/.dotnet/
             installer/artifacts/
-          key: ${{ runner.os }}-runtime-riscv64-${{ inputs.runtime_version }}
+          key: ${{ runner.os }}-runtime-riscv64-CoreCLR
       - name: build .Net Runtime With CoreCLR Backend
         uses: ./.github/actions/build-runtime
         with:
           branch: v8.0.0
           repository: https://github.com/dotnet/runtime
           runtime_version: ${{ env.RUNTIME_VERSION }}
-      - name: build .Net SDK
-        uses: ./common-steps@build_SDK
+      - name: build .Net SDK With CoreCLR Backend
+        uses: ./.github/actions/build-sdk
         with:
           branch: v8.0.100
-          repository: https://github.com/dotnet/sdk
+          repository:  https://github.com/dotnet/sdk
           sdk_version: ${{ env.SDK_VERSION }}
-      - name: build .Net aspnetcore
-        uses: ./common-steps@build_aspnetcore
+      - name: build .Net aspnetcore With CoreCLR Backend
+        uses: ./.github/actions/build-aspnetcore
         with:
           branch: v8.0.0
           repository: https://github.com/dotnet/aspnetcore
           aspnetcore_version: ${{ env.ASPNETCORE_VERSION }}
           runtime_version: ${{ env.RUNTIME_VERSION }}
-      - name: build .Net installer
-        uses: ./common-steps@build_installer
+      - name: build .Net installer With CoreCLR Backend
+        uses: ./.github/actions/build-installer
         with:
           branch: v8.0.100
           repository: https://github.com/dotnet/installer
           aspnetcore_version: ${{ env.ASPNETCORE_VERSION }}
           runtime_version: ${{ env.RUNTIME_VERSION }}
           sdk_version: ${{ env.SDK_VERSION }}
-      - name: Upload .NET installer
-        uses: actions/upload-artifact@v4
-        with:
-          name: dotnet-sdk-linux-riscv64
-          path: ${{ env.OUTPUTDIR }}/dotnet-sdk-*-linux-riscv64.tar.gz*
+          surfix: CoreCLR

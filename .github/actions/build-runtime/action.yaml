@@ -37,12 +37,3 @@ runs:
         cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHostResolver.*.nupkg ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILAsm.*.nupkg ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILDAsm.*.nupkg ${{ env.OUTPUTDIR }}
-    - name: compress files 
-      shell: bash
-      run: tar -zcf artifacts-runtime.tar.gz -C ${{ github.workspace }}/ packages downloads output
-    - name: Upload .Net Runtime Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        retention-days: 1
-        name: artifacts-runtime-riscv64-${{ inputs.runtime_version }}
-        path: artifacts-runtime.tar.gz

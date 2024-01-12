@@ -1,0 +1,37 @@
+name: 'Build .NET SDK'
+description: 'Build .NET SDK for riscv64'
+inputs: 
+  repository:
+    description: 'Repository or .Net SDK'
+    default: https://github.com/dotnet/sdk
+  branch:
+    description: 'Branch to build'
+    required: true
+  sdk_version:
+    description: 'SDK version'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Update Node.js
+      shell: bash
+      run: |
+        apt-get update
+        apt-get autoremove -y nodejs
+        curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
+    - name: Clone repository
+      run: git clone --depth 1 -b ${{ inputs.branch }} ${{ inputs.repository }}
+      shell: bash
+    - name: Build SDK
+      shell: bash
+      run: |
+        mkdir -p ${{ env.PACKAGESDIR }}
+        mkdir -p ${{ env.DOWNLOADDIR }}
+        mkdir -p ${{ env.OUTPUTDIR }}
+
+        cd sdk
+        ./build.sh --pack --ci -c Release /p:Architecture=riscv64
+        mkdir -p ${{ env.DOWNLOADDIR }}/Sdk/${{ inputs.sdk_version }}
+        cp artifacts/packages/Release/NonShipping/dotnet-toolset-internal-*.zip ${{ env.DOWNLOADDIR }}/Sdk/${{ inputs.sdk_version }}/dotnet-toolset-internal-${{ inputs.sdk_version }}.zip
+        cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Common.*.nupkg ${{ env.PACKAGESDIR }}
