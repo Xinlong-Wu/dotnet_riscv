@@ -14,14 +14,14 @@ runs:
   using: 'composite'
   steps:
     - name: Clone repository
-      run: git clone --depth 1 -b ${{ input.branch }} ${{ input.repository }}
+      run: git clone --depth 1 -b ${{ inputs.branch }} ${{ inputs.repository }}
     - name: Cache
         uses: actions/cache@v2
         with:
           path: |
             runtime/.dotnet/
             runtime/artifacts/
-          key: ${{ runner.os }}-runtime-riscv64-${{ input.runtime_version }}
+          key: ${{ runner.os }}-runtime-riscv64-${{ inputs.runtime_version }}
     - name: Build runtime
       run: |
         mkdir -p ${{ env.PACKAGESDIR }}
@@ -32,8 +32,8 @@ runs:
         ./build.sh --ci -c Release --cross --arch riscv64
         cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Host.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
         cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
-        mkdir -p ${{ env.DOWNLOADDIR }}/Runtime/${{ input.runtime_version }}
-        cp artifacts/packages/Release/Shipping/dotnet-runtime-*-linux-riscv64.tar.gz ${{ env.DOWNLOADDIR }}/Runtime/${{ input.runtime_version }}
+        mkdir -p ${{ env.DOWNLOADDIR }}/Runtime/${{ inputs.runtime_version }}
+        cp artifacts/packages/Release/Shipping/dotnet-runtime-*-linux-riscv64.tar.gz ${{ env.DOWNLOADDIR }}/Runtime/${{ inputs.runtime_version }}
         cp artifacts/packages/Release/Shipping/dotnet-runtime-*-linux-riscv64.tar.gz ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Host.linux-riscv64.*.nupkg ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.OUTPUTDIR }}
@@ -48,5 +48,5 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         retention-days: 1
-        name: artifacts-runtime-riscv64-${{ input.runtime_version }}
+        name: artifacts-runtime-riscv64-${{ inputs.runtime_version }}
         path: artifacts-runtime.tar.gz
