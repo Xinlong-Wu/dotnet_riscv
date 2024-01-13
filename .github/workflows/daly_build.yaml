@@ -48,9 +48,9 @@ jobs:
           cp artifacts/packages/Release/Shipping/dotnet-runtime-*-linux-riscv64.tar.gz ${{ env.OUTPUTDIR }}
           cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Host.linux-riscv64.*.nupkg ${{ env.OUTPUTDIR }}
           cp artifacts/packages/Release/Shipping/Microsoft.NETCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.OUTPUTDIR }}
-          cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHost.*.nupkg ${{ env.OUTPUTDIR }}
-          cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHostPolicy.*.nupkg ${{ env.OUTPUTDIR }}
-          cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHostResolver.*.nupkg ${{ env.OUTPUTDIR }}
+          # cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHost.*.nupkg ${{ env.OUTPUTDIR }}
+          # cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHostPolicy.*.nupkg ${{ env.OUTPUTDIR }}
+          # cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHostResolver.*.nupkg ${{ env.OUTPUTDIR }}
           cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILAsm.*.nupkg ${{ env.OUTPUTDIR }}
           cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILDAsm.*.nupkg ${{ env.OUTPUTDIR }}
       - name: compress files 
