@@ -33,5 +33,7 @@ runs:
         cp artifacts/installers/Release/aspnetcore_base_runtime.version ${{ env.DOWNLOADDIR }}/aspnetcore/Runtime/${{ inputs.aspnetcore_version }}
         cp artifacts/packages/Release/Shipping/Microsoft.AspNetCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Web.*.nupkg ${{ env.PACKAGESDIR }}
+        cd .. && rm -r aspnetcore
+        rm -r aspnetcore
 
         

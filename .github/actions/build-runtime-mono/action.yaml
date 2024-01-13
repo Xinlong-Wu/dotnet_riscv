@@ -37,3 +37,4 @@ runs:
         cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.DotNetHostResolver.*.nupkg ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILAsm.*.nupkg ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/runtime.linux-riscv64.Microsoft.NETCore.ILDAsm.*.nupkg ${{ env.OUTPUTDIR }}
+        cd .. && rm -r runtime

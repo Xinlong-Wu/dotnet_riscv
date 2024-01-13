@@ -35,3 +35,4 @@ runs:
         mkdir -p ${{ env.DOWNLOADDIR }}/Sdk/${{ inputs.sdk_version }}
         cp artifacts/packages/Release/NonShipping/dotnet-toolset-internal-*.zip ${{ env.DOWNLOADDIR }}/Sdk/${{ inputs.sdk_version }}/dotnet-toolset-internal-${{ inputs.sdk_version }}.zip
         cp artifacts/packages/Release/Shipping/Microsoft.DotNet.Common.*.nupkg ${{ env.PACKAGESDIR }}
+        cd .. && rm -r sdk
