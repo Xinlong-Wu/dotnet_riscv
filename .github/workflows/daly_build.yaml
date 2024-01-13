@@ -216,9 +216,8 @@ jobs:
 
   publish_release:
     runs-on: ubuntu-latest
+    needs: build_installer
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
