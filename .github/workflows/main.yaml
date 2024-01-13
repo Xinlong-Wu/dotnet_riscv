@@ -1,5 +1,11 @@
 name: Build .NET SDK
 
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      main
 env:
   PACKAGESDIR: ${{ github.workspace }}/packages
   DOWNLOADDIR: ${{ github.workspace }}/downloads
@@ -210,3 +216,4 @@ jobs:
       with:
         name: dotnet-sdk-linux-riscv64
         path: ${{ env.OUTPUTDIR }}/dotnet-sdk-*-linux-riscv64.tar.gz*
+
