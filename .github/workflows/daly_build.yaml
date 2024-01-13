@@ -10,9 +10,9 @@ env:
   DOWNLOADDIR: ${{ github.workspace }}/downloads
   OUTPUTDIR: ${{ github.workspace }}/output
   RELEASE_VERSION: Daly-${{ github.event.created_at }}
-  RUNTIME_VERSION: 8.0.0-rtm.23531.3
-  SDK_VERSION: 8.0.100-rtm.23551.6
-  ASPNETCORE_VERSION: 8.0.0-rtm.23531.12
+  RUNTIME_VERSION: riscv-jit-rv64
+  SDK_VERSION: devel
+  ASPNETCORE_VERSION: devel
   ROOTFS_DIR: /crossrootfs/riscv64
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Clone repository
-        run: git clone --depth 1 -b v8.0.0 https://github.com/dotnet/runtime
+        run: git clone --depth 1 -b riscv-jit-rv64 https://github.com/Xinlong-Wu/runtime
         # cache
       - name: Cache
         uses: actions/cache@v2
@@ -76,7 +76,7 @@ jobs:
         apt-get autoremove -y nodejs
         curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
     - name: Clone repositories
-      run: git clone --depth 1 -b v8.0.100 https://github.com/dotnet/sdk
+      run: git clone --depth 1 -b main https://github.com/dotnet/sdk
     # cache
     - name: Cache
       uses: actions/cache@v2
@@ -120,7 +120,7 @@ jobs:
         apt-get autoremove -y nodejs
         curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
     - name: Clone repositories
-      run: git clone --depth 1 -b v8.0.0 https://github.com/dotnet/aspnetcore --recurse-submodules
+      run: git clone --depth 1 -b main https://github.com/dotnet/aspnetcore --recurse-submodules
     # cache
     - name: Cache
       uses: actions/cache@v2
@@ -170,7 +170,7 @@ jobs:
 
     steps:
     - name: Clone repositories
-      run: git clone --depth 1 -b v8.0.100 https://github.com/dotnet/installer
+      run: git clone --depth 1 -b main https://github.com/dotnet/installer
     # cache
     - name: Cache
       uses: actions/cache@v2
