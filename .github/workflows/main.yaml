@@ -223,13 +223,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dotnet-sdk-linux-riscv64
-      - name: Check artifacts
-        run: |
-          pwd
-          ls ./output
-          ls output/dotnet-sdk-*-linux-riscv64.tar.gz*
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "output/dotnet-sdk-*-linux-riscv64.tar.gz*"
+          artifacts: "dotnet-sdk-*-linux-riscv64.tar.gz*"
