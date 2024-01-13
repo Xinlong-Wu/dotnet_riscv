@@ -219,6 +219,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_installer
     steps:
+      - name: Download .Net
+        uses: actions/download-artifact@v4
+        with:
+          name: dotnet-sdk-linux-riscv64
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
