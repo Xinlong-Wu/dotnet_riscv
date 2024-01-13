@@ -9,7 +9,7 @@ env:
   PACKAGESDIR: ${{ github.workspace }}/packages
   DOWNLOADDIR: ${{ github.workspace }}/downloads
   OUTPUTDIR: ${{ github.workspace }}/output
-  RELEASE_VERSION: Daly-${{ github.event.created_at }}
+  RELEASE_VERSION: Daly-Mono-${{ github.event.created_at }}
   RUNTIME_VERSION: riscv-jit-rv64
   SDK_VERSION: devel
   ASPNETCORE_VERSION: devel
