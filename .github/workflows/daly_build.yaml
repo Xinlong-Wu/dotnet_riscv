@@ -10,7 +10,7 @@ env:
   DOWNLOADDIR: ${{ github.workspace }}/downloads
   OUTPUTDIR: ${{ github.workspace }}/output
   RELEASE_VERSION: Daly-Mono-${{ github.event.created_at }}
-  RUNTIME_VERSION: riscv-jit-rv64
+  RUNTIME_VERSION: 9.0.0-alpha.1.24061.26
   SDK_VERSION: devel
   ASPNETCORE_VERSION: devel
   ROOTFS_DIR: /crossrootfs/riscv64
