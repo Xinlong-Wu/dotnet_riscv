@@ -176,8 +176,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: |
-          aspnetcore/.dotnet/
-          aspnetcore/artifacts/
+          installer/.dotnet/
+          installer/artifacts/
         key: ${{ runner.os }}-installer-riscv64-${{ env.ASPNETCORE_VERSION }}
 
     - name: Download .Net Runtime & aspnetcore Artifacts
@@ -211,6 +211,7 @@ jobs:
     - name: after check
       run: |
         ls -l ${{ github.workspace }}/output
+        ls ${{ env.OUTPUTDIR }}/dotnet-sdk-*-linux-riscv64.tar.gz*
     - name: Upload .NET installer
       uses: actions/upload-artifact@v4
       with:
