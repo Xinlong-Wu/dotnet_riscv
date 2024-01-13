@@ -225,4 +225,3 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "output/dotnet-sdk-*-linux-riscv64.tar.gz*"
-          tag: true

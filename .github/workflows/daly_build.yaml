@@ -224,5 +224,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "output/dotnet-sdk-*-linux-riscv64.tar.gz*"
-          tag: true
+          tag: Daly-${{ github.event.created_at }}
           prerelease: true
