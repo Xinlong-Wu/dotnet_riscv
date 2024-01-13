@@ -193,6 +193,9 @@ jobs:
         mkdir -p ${{ github.workspace }}
         tar -zxf artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}/
         tar -zxf artifacts-SDK.tar.gz -C ${{ github.workspace }}/
+    - name: before check
+      run: |
+        ls -l ${{ github.workspace }}/output
     - name: Build .NET installer
       run: |
         cd installer
@@ -205,6 +208,9 @@ jobs:
         ./build.sh --ci -c Release -a riscv64 /p:HostRid=linux-x64 /p:PublicBaseURL=file://${{ env.DOWNLOADDIR }}/
         cp artifacts/packages/Release/Shipping/dotnet-sdk-*-linux-riscv64.tar.gz ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/dotnet-sdk-*-linux-riscv64.tar.gz.sha512 ${{ env.OUTPUTDIR }}
+    - name: after check
+      run: |
+        ls -l ${{ github.workspace }}/output
     - name: Upload .NET installer
       uses: actions/upload-artifact@v4
       with:
