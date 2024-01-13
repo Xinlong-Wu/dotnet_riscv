@@ -212,7 +212,7 @@ jobs:
       run: |
         ls -l ${{ github.workspace }}/output
         ls ${{ env.OUTPUTDIR }}/dotnet-sdk-*-linux-riscv64.tar.gz*
-        ls ${ROOTFS_DIR}/dotnet-sdk-*-linux-riscv64.tar.gz*
+        ls /__w/dotnet_riscv/dotnet_riscv/dotnet-sdk-*-linux-riscv64.tar.gz*
     - name: Upload .NET installer
       uses: actions/upload-artifact@v4
       with:
