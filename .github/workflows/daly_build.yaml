@@ -32,7 +32,7 @@ jobs:
           path: |
             runtime/.dotnet/
             runtime/artifacts/
-          key: ${{ runner.os }}-runtime-riscv64-${{ env.RUNTIME_VERSION }}
+          key: ${{ runner.os }}-Daly-runtime-riscv64-${{ env.RUNTIME_VERSION }}
 
       - name: Build runtime
         run: |
@@ -84,7 +84,7 @@ jobs:
         path: |
           sdk/.dotnet/
           sdk/artifacts/
-        key: ${{ runner.os }}-SDK-riscv64-${{ env.SDK_VERSION }}
+        key: ${{ runner.os }}-Daly-SDK-riscv64-${{ env.SDK_VERSION }}
     - name: Build SDK
       run: |
         mkdir -p ${{ env.PACKAGESDIR }}
@@ -128,7 +128,7 @@ jobs:
         path: |
           aspnetcore/.dotnet/
           aspnetcore/artifacts/
-        key: ${{ runner.os }}-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}
+        key: ${{ runner.os }}-Daly-aspnetcore-riscv64-${{ env.ASPNETCORE_VERSION }}
 
     - name: Download .Net Runtime Artifacts
       uses: actions/download-artifact@v4
@@ -178,7 +178,7 @@ jobs:
         path: |
           installer/.dotnet/
           installer/artifacts/
-        key: ${{ runner.os }}-installer-riscv64-${{ env.ASPNETCORE_VERSION }}
+        key: ${{ runner.os }}-Daly-installer-riscv64-${{ env.ASPNETCORE_VERSION }}
 
     - name: Download .Net Runtime & aspnetcore Artifacts
       uses: actions/download-artifact@v4
