@@ -195,6 +195,12 @@ jobs:
         mkdir -p ${{ github.workspace }}
         tar -zxf artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}/
         tar -zxf artifacts-SDK.tar.gz -C ${{ github.workspace }}/
+    - name: brfore check
+      run: |
+        ls ${{ github.workspace }}/
+        ls ${{ env.DOWNLOADDIR }}/
+        ls ${{ env.DOWNLOADDIR }}/Runtime/
+        ls ${{ env.DOWNLOADDIR }}/Runtime/9.0.0-alpha.1.24061.26
     - name: Build .NET installer
       run: |
         cd installer
