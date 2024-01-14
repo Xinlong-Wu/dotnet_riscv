@@ -232,6 +232,6 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "output/dotnet-sdk-*-linux-riscv64.tar.gz*"
+          artifacts: "dotnet-sdk-*-linux-riscv64.tar.gz*"
           tag: Mono-Monthly-${{ steps.date.outputs.date }}
           prerelease: true
