@@ -195,12 +195,10 @@ jobs:
         mkdir -p ${{ github.workspace }}
         tar -zxf artifacts-aspnetcore.tar.gz -C ${{ github.workspace }}/
         tar -zxf artifacts-SDK.tar.gz -C ${{ github.workspace }}/
-    - name: brfore check
+    - name: Rename Package
       run: |
-        ls ${{ github.workspace }}/
-        ls ${{ env.DOWNLOADDIR }}/
-        ls ${{ env.DOWNLOADDIR }}/Runtime/
-        ls ${{ env.DOWNLOADDIR }}/Runtime/9.0.0-alpha.1.24061.26
+        ls ${{ env.DOWNLOADDIR }}/Runtime/${{ env.RUNTIME_VERSION}}
+        mv ${{ env.DOWNLOADDIR }}/Runtime/dotnet-runtime-9.0.0-ci-linux-riscv64.tar.gz ${{ env.DOWNLOADDIR }}/Runtime/dotnet-runtime-${{ env.RUNTIME_VERSION}}-linux-riscv64.tar.gz
     - name: Build .NET installer
       run: |
         cd installer
