@@ -11,8 +11,8 @@ env:
   OUTPUTDIR: ${{ github.workspace }}/output
   RELEASE_VERSION: Daly-Mono-${{ github.event.created_at }}
   RUNTIME_VERSION: 9.0.0-ci
-  SDK_VERSION: devel
-  ASPNETCORE_VERSION: devel
+  SDK_VERSION: 9.0.100-ci
+  ASPNETCORE_VERSION: 9.0.0-ci
   ROOTFS_DIR: /crossrootfs/riscv64
 
 jobs:
@@ -197,7 +197,7 @@ jobs:
         tar -zxf artifacts-SDK.tar.gz -C ${{ github.workspace }}/
     - name: Rename Package
       run: |
-        ls ${{ env.DOWNLOADDIR }}/Runtime/${{ env.RUNTIME_VERSION}}
+        ls ${{ env.DOWNLOADDIR }}/Runtime/${{ env.RUNTIME_VERSION }}
         # mv ${{ env.DOWNLOADDIR }}/Runtime/dotnet-runtime-9.0.0-ci-linux-riscv64.tar.gz ${{ env.DOWNLOADDIR }}/Runtime/dotnet-runtime-${{ env.RUNTIME_VERSION}}-linux-riscv64.tar.gz
     - name: Build .NET installer
       run: |
@@ -208,7 +208,7 @@ jobs:
         sed -i s'|ppc64le|riscv64|' src/SourceBuild/content/Directory.Build.props
         sed -i s'|ppc64le|riscv64|' src/redist/targets/Crossgen.targets
         sed -i s"|<clear />|<clear />\n<add key='local' value='${{ env.PACKAGESDIR }}' />|" NuGet.config
-        ./build.sh --ci -c Release -a riscv64 /p:HostRid=linux-x64 /p:PublicBaseURL=file://${{ env.DOWNLOADDIR }}/ /p:MicrosoftNETCoreAppRuntimePackageVersion=${{env.RUNTIME_VERSION}}
+        ./build.sh --ci -c Release -a riscv64 /p:HostRid=linux-x64 /p:PublicBaseURL=file://${{ env.DOWNLOADDIR }}/ /p:MicrosoftNETCoreAppRuntimePackageVersion=${{ env.RUNTIME_VERSION }}
         cp artifacts/packages/Release/Shipping/dotnet-sdk-*-linux-riscv64.tar.gz ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Release/Shipping/dotnet-sdk-*-linux-riscv64.tar.gz.sha512 ${{ env.OUTPUTDIR }}
     - name: Move artifacts
