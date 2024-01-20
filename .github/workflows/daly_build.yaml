@@ -40,7 +40,7 @@ jobs:
           mkdir -p ${{ env.DOWNLOADDIR }}
           mkdir -p ${{ env.OUTPUTDIR }}
           cd runtime
-          ./build.sh --ci -c Debug --cross --arch riscv64 --usemonoruntime
+          ./build.sh --ci -c Debug --cross --arch riscv64 --usemonoruntime /p:KeepNativeSymbols=true
           cp artifacts/packages/Debug/Shipping/Microsoft.NETCore.App.Host.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
           cp artifacts/packages/Debug/Shipping/Microsoft.NETCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
           mkdir -p ${{ env.DOWNLOADDIR }}/Runtime/${{ env.RUNTIME_VERSION}}
