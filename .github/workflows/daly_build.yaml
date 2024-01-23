@@ -40,7 +40,7 @@ jobs:
           mkdir -p ${{ env.DOWNLOADDIR }}
           mkdir -p ${{ env.OUTPUTDIR }}
           cd runtime
-          ./build.sh --ci -c Debug --cross --arch riscv64 --usemonoruntime /p:KeepNativeSymbols=true
+          ./build.sh -c Debug --cross --arch riscv64 --usemonoruntime /p:KeepNativeSymbols=true
           cp artifacts/packages/Debug/Shipping/Microsoft.NETCore.App.Host.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
           cp artifacts/packages/Debug/Shipping/Microsoft.NETCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
           mkdir -p ${{ env.DOWNLOADDIR }}/Runtime/${{ env.RUNTIME_VERSION}}
@@ -91,7 +91,7 @@ jobs:
         mkdir -p ${{ env.DOWNLOADDIR }}
         mkdir -p ${{ env.OUTPUTDIR }}
         cd sdk
-        ./build.sh --pack --ci -c Debug /p:Architecture=riscv64
+        ./build.sh --pack -c Debug /p:Architecture=riscv64 /p:KeepNativeSymbols=true
         mkdir -p ${{ env.DOWNLOADDIR }}/Sdk/${{ env.SDK_VERSION}}
         cp artifacts/packages/Debug/NonShipping/dotnet-toolset-internal-*.zip ${{ env.DOWNLOADDIR }}/Sdk/${{ env.SDK_VERSION}}/dotnet-toolset-internal-${{ env.SDK_VERSION}}.zip
         cp artifacts/packages/Debug/Shipping/Microsoft.DotNet.Common.*.nupkg ${{ env.PACKAGESDIR }}
@@ -145,7 +145,7 @@ jobs:
         cd aspnetcore
         sed -i "s|ppc64le|riscv64|" src/Framework/App.Runtime/src/Microsoft.AspNetCore.App.Runtime.csproj
         sed -i "s|\$(BaseIntermediateOutputPath)\$(DotNetRuntimeArchiveFileName)|${{ env.DOWNLOADDIR }}/Runtime/${{ env.RUNTIME_VERSION}}/dotnet-runtime-8.0.1-linux-riscv64.tar.gz|" src/Framework/App.Runtime/src/Microsoft.AspNetCore.App.Runtime.csproj
-        ./eng/build.sh --pack --ci -c Debug -arch riscv64 /p:DotNetAssetRootUrl=file://${{ env.DOWNLOADDIR }}/
+        ./eng/build.sh --pack -c Debug -arch riscv64 /p:KeepNativeSymbols=true /p:DotNetAssetRootUrl=file://${{ env.DOWNLOADDIR }}/
         cp artifacts/packages/Debug/Shipping/Microsoft.AspNetCore.App.Runtime.linux-riscv64.*.nupkg ${{ env.PACKAGESDIR }}
         mkdir -p ${{ env.DOWNLOADDIR }}/aspnetcore/Runtime/${{ env.ASPNETCORE_VERSION }}
         cp artifacts/installers/Debug/aspnetcore-runtime-*-linux-riscv64.tar.gz ${{ env.DOWNLOADDIR }}/aspnetcore/Runtime/${{ env.ASPNETCORE_VERSION }}
@@ -204,7 +204,7 @@ jobs:
         sed -i s'|ppc64le|riscv64|' src/SourceBuild/content/Directory.Build.props
         sed -i s'|ppc64le|riscv64|' src/redist/targets/Crossgen.targets
         sed -i s"|<clear />|<clear />\n<add key='local' value='${{ env.PACKAGESDIR }}' />|" NuGet.config
-        ./build.sh --ci -c Debug -a riscv64 /p:HostRid=linux-x64 /p:PublicBaseURL=file://${{ env.DOWNLOADDIR }}/
+        ./build.sh -c Debug -a riscv64 /p:KeepNativeSymbols=true /p:HostRid=linux-x64 /p:PublicBaseURL=file://${{ env.DOWNLOADDIR }}/
         cp artifacts/packages/Debug/Shipping/dotnet-sdk-*-linux-riscv64.tar.gz ${{ env.OUTPUTDIR }}
         cp artifacts/packages/Debug/Shipping/dotnet-sdk-*-linux-riscv64.tar.gz.sha512 ${{ env.OUTPUTDIR }}
     - name: Move artifacts
