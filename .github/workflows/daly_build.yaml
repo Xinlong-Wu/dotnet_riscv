@@ -91,7 +91,7 @@ jobs:
         mkdir -p ${{ env.DOWNLOADDIR }}
         mkdir -p ${{ env.OUTPUTDIR }}
         cd sdk
-        ./build.sh --pack -c Debug /p:Architecture=riscv64 /p:KeepNativeSymbols=true --sourceBuild
+        ./build.sh --pack -c Debug /p:Architecture=riscv64 /p:KeepNativeSymbols=true
         mkdir -p ${{ env.DOWNLOADDIR }}/Sdk/${{ env.SDK_VERSION}}
         cp artifacts/packages/Debug/NonShipping/dotnet-toolset-internal-*.zip ${{ env.DOWNLOADDIR }}/Sdk/${{ env.SDK_VERSION}}/dotnet-toolset-internal-${{ env.SDK_VERSION}}.zip
         cp artifacts/packages/Debug/Shipping/Microsoft.DotNet.Common.*.nupkg ${{ env.PACKAGESDIR }}
